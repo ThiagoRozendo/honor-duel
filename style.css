@@ -1,0 +1,56 @@
+z*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.GameBoard{
+    position: relative;
+    width: 256px;
+    height: 128px;
+    border: 1px solid black;
+    margin: 0 auto;
+}
+
+.Personagem {
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    position: relative;
+ }
+
+ .Pixelart{
+    image-rendering: pixelated;
+ }
+
+ 
+ .CavaleiroAndando{
+     animation: andandoSpriteSheet 500ms steps(4) infinite;
+     width: 128px;
+     position: absolute;
+    }
+    
+    .Direita{
+       top: -0px
+    }
+    
+    .Esquerda{
+       top: -32px
+    }
+
+ .CavaleiroParado{
+     width: 128px;
+     position: absolute;
+    }
+    
+    
+ @keyframes andandoSpriteSheet {
+   
+    from{
+        transform: translate3d(0px, 0, 0)
+    }
+    to{
+        transform: translate3d(-100%, 0, 0);
+    }
+
+}
