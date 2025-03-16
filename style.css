@@ -6,17 +6,18 @@ z*{
 
 .GameBoard{
     position: relative;
-    width: 256px;
-    height: 128px;
+    width: 800px;
+    height: 300px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
 .Personagem {
-    width: 32px;
-    height: 32px;
+    width: 64px;
+    height: 64px;
     overflow: hidden;
-    position: relative;
+    position: absolute;
+    top: 150px;
  }
 
  .Pixelart{
@@ -26,7 +27,7 @@ z*{
  
  .CavaleiroAndando{
      animation: andandoSpriteSheet 500ms steps(4) infinite;
-     width: 128px;
+     width: 256px;
      position: absolute;
     }
     
@@ -35,11 +36,11 @@ z*{
     }
     
     .Esquerda{
-       top: -32px
+       top: -64px
     }
 
  .CavaleiroParado{
-     width: 128px;
+     width: 256px;
      position: absolute;
     }
     
