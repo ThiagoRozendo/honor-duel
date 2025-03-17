@@ -7,17 +7,28 @@ z*{
 .GameBoard{
     position: relative;
     width: 803px;
-    height: 300px;
+    height: 400px;
     border: 1px solid black;
     margin: 0 auto;
 }
 
+.Cenario{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('Assets/cenario.png'); /* Substitua pelo caminho da sua imagem */
+    background-size: contain; /* Ajusta a imagem para cobrir todo o GameBoard */
+    background-position: center;
+    z-index: -1; /* Coloca a imagem de fundo atrás dos outros elementos */
+}
 .Personagem {
     width: 64px;
     height: 64px;
     overflow: hidden;
     position: absolute;
-    top: 150px;
+    top: 200px;
  }
 
  .Inimigo{
@@ -25,7 +36,7 @@ z*{
     height: 64px;
     overflow: hidden;
     position: absolute;
-    top: 150px;
+    top: 200px;
     left: 740px;
  }
 
@@ -58,10 +69,7 @@ z*{
         top: -128px;
     }
 
-    .EsquerdaAtaque{
-        top: -192px;
-    }
-
+   
  .CavaleiroParado{
      width: 256px;
      position: absolute;

@@ -20,10 +20,34 @@
         }
     }
 
-    const cavaleiro = new Cavaleiro(10, 1, false);
+    class Inimigo {
+        constructor(vida, ataque, atacando, defendendo){
+            this.vida = vida; 
+            this.ataque = ataque;
+            atacando = false;
+            defendendo = true;
+        }
 
-    //tamanho do movimento
-    const distanciaMovimento = 3;
+        atualizarVidaInimigoDisplay() {
+            vidaInimigoDisplay.textContent = this.vida;
+        }
+
+        sofrerDanoInimigo(dano) {
+            this.vida -= dano; 
+            this.atualizarVidaInimigoDisplay(); 
+        }
+    }
+
+    const cavaleiro = new Cavaleiro(10, 1, false);
+    cavaleiro.atualizarVidaDisplay();
+    
+    const inimigo2 = new Inimigo(20, 2, false, true);
+    inimigo2.atualizarVidaInimigoDisplay();
+
+    
+
+    const distanciaMovimento = 5; //Distancia do movimento do cavaleiro
+    const distanciaMovimentoInimigo = 3; //Distancia do monivmento do inimigo
 
     //mover pra direita
     function moverDireita() {
@@ -43,6 +67,7 @@
         personagem.querySelector('img').classList.add('CavaleiroAndando');
     }
 
+
     document.addEventListener('keydown', function(evento) {
         if (posicaoX <= 720 && (evento.key === 'd' || evento.key === 'D')) {
             moverDireita();
@@ -59,51 +84,59 @@
         }
     });
 
+    //atacar
     document.addEventListener('keydown', function(evento){
-        if(personagem.querySelector('img').classList.contains('Direita')){
+            if(!cavaleiro.atacando && (evento.key === 'j' || evento.key === 'J')){
+                cavaleiro.atacando = true;
+                personagem.querySelector('img').classList.add('DireitaAtaque');
+                personagem.querySelector('img').classList.add('CavaleiroAtacando');
+                personagem.querySelector('img').classList.remove('CavaleiroAndando');
+                personagem.querySelector('img').classList.remove('Direita');
+                personagem.querySelector('img').classList.remove('Esquerda');
 
-            if(evento.key === 'j' || evento.key === 'J'){
-            personagem.querySelector('img').classList.add('DireitaAtaque');
-            cavaleiro.atacando = true;
-            personagem.querySelector('img').classList.add('CavaleiroAtacando');
-            personagem.querySelector('img').classList.remove('CavaleiroAndando');
-            personagem.querySelector('img').classList.remove('Direita');
-            personagem.querySelector('img').classList.remove('Esquerda');
-        }   
-        }
-
-        if(personagem.querySelector('img').classList.contains('Esquerda')){
-
-            if(evento.key === 'j' || evento.key === 'J'){
-            personagem.querySelector('img').classList.add('EsquerdaAtaque');
-            cavaleiro.atacando = true;
-            personagem.querySelector('img').classList.add('CavaleiroAtacando');
-            personagem.querySelector('img').classList.remove('CavaleiroAndando');
-            personagem.querySelector('img').classList.remove('Direita');
-            personagem.querySelector('img').classList.remove('Esquerda');
-        }   
-        }
-            
-
-
-            cavaleiro.sofrerDano();
-    });
-
-    document.addEventListener('keyup', function(evento) {
-       
-         
-            if (evento.key === 'j' || evento.key === 'J') {
                 setTimeout(function() {
-                    personagem.querySelector('img').classList.remove('CavaleiroAtacando');
-                    personagem.querySelector('img').classList.remove('EsquerdaAtaque');
-                    personagem.querySelector('img').classList.remove('DireitaAtaque');
                     personagem.querySelector('img').classList.add('CavaleiroParado');
-                }, 800);
-            }
-            personagem.querySelector('img').classList.add('Direita');
+                    personagem.querySelector('img').classList.remove('CavaleiroAtacando');
+                    personagem.querySelector('img').classList.remove('DireitaAtaque');
+                    
+                        if (calcularDistancia(inimigo, personagem) <= 55 && calcularDistancia(inimigo, personagem) >= 50) {
+                            inimigo2.sofrerDanoInimigo(cavaleiro.ataque);
+                        }     
+                        else if (calcularDistancia(inimigo, personagem) < 50) {
+                            inimigo2.sofrerDanoInimigo(cavaleiro.ataque + 1);
+                        } 
 
-
+                        cavaleiro.atacando = false;
+                }, 600);
+            }   
+        });
+        
+        
        
-    });
+    function calcularDistancia(div1, div2) {
+        const rect1 = div1.getBoundingClientRect();
+        const rect2 = div2.getBoundingClientRect();
+    
+        //calcula a distancia entre as duas divs
+        return Math.abs(rect1.left - rect2.left);
+    }
+
+    setInterval(() => {
+        if (calcularDistancia(inimigo, personagem) < 40) {
+            cavaleiro.sofrerDano();
+            posicaoX -= 20; 
+            personagem.style.transform = `translateX(${posicaoX}px)`;
+    
+            //aplica um filtro pro dano
+            personagem.querySelector('img').style.filter = "brightness(0)";
+    
+            setTimeout(() => {
+                personagem.querySelector('img').style.filter = "";
+            }, 150);
+        }
+    }, 100);
+    
+    
+    
     
 
