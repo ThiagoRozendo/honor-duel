@@ -18,10 +18,10 @@ z*{
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('Assets/cenario.png'); /* Substitua pelo caminho da sua imagem */
-    background-size: contain; /* Ajusta a imagem para cobrir todo o GameBoard */
+    background-image: url('Assets/cenario.png'); 
+    background-size: contain; 
     background-position: center;
-    z-index: -1; /* Coloca a imagem de fundo atrás dos outros elementos */
+    z-index: -1; 
 }
 .Personagem {
     width: 64px;
@@ -38,6 +38,12 @@ z*{
     position: absolute;
     top: 200px;
     left: 740px;
+ }
+
+ .InimigoAndando{
+    animation: InimigoAndandoSpriteSheet 1500ms steps(4) infinite;
+    width: 256px;
+    position: absolute;
  }
 
  .Pixelart{
@@ -60,9 +66,23 @@ z*{
     }
 
     .CavaleiroAtacando{
-    animation: atacandoSpriteSheet 1s steps(4) forwards;
+    animation: atacandoSpriteSheet 200ms steps(4) forwards;
     width: 256px;
     position: absolute;
+
+    }
+
+    .InimigoAtacando{
+        animation: atacandoSpriteSheet 2s steps(4);
+        width: 256px;
+        position: absolute;
+        top: -64px;
+    }
+
+    .InimigoAtacou{
+        width: 256px;
+        position: absolute;
+        top: -128px;
     }
 
     .DireitaAtaque{
@@ -93,6 +113,26 @@ z*{
 }
     
  @keyframes atacandoSpriteSheet {
+   
+    from{
+        transform: translate3d(0px, 0, 0)
+    }
+    to{
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+ @keyframes InimigoAtacandoSpriteSheet {
+   
+    from{
+        transform: translate3d(0px, 0, 0)
+    }
+    to{
+        transform: translate3d(-100%, 0, 0);
+    }
+}
+
+ @keyframes InimigoAndandoSpriteSheet {
    
     from{
         transform: translate3d(0px, 0, 0)
