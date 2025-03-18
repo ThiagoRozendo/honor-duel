@@ -204,6 +204,7 @@ z*{
     z-index: 2;
 }
 
+
 .TelaVenceu button {
     margin-top: 20px;
     padding: 12px 20px;
@@ -215,5 +216,36 @@ z*{
 }
 
 .TelaVenceu button:hover{
+    background-color: green;
+}
+
+.TelaInicio{
+    display: relative; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white; 
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    z-index: 999;
+}
+
+.TelaInicio button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    font-size: 20px;
+    background-color: forestgreen;
+    border: none;
+    border-radius: 4px;
+    color: white;
+}
+
+.TelaInicio button:hover{
     background-color: green;
 }

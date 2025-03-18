@@ -5,7 +5,7 @@
 
 <body>
 
-    <audio id="soundTrack" src="Assets/soundtrack.mp3"></audio>
+    <audio id="soundTrack" src="Assets/soundtrack.mp3" ></audio>
     <div class="GameBoard">
         <div class="Cenario Pixelart"></div>
         <div id= "personagem" class="Personagem">
@@ -29,6 +29,10 @@
             <button onclick="reiniciarJogo()">Reiniciar</button>
         </div>
 
+        <div id="telaInicio" class="TelaInicio">
+            <h1>Bem vindo ao Honor Duel</h1>
+            <button onclick="comecar()">Começar a Batalha</button>
+        </div>
         <div id="telaVenceu" class="TelaVenceu" style="display: none;">
             <h1>Parabéns! Você venceu!</h1>
             <button onclick="reiniciarJogo()">Jogar Novamente</button>
