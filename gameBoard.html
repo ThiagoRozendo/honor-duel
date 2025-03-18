@@ -5,6 +5,7 @@
 
 <body>
 
+    <audio id="soundTrack" src="Assets/soundtrack.mp3"></audio>
     <div class="GameBoard">
         <div class="Cenario Pixelart"></div>
         <div id= "personagem" class="Personagem">
@@ -15,14 +16,27 @@
             <img class=" Pixelart Direita InimigoParado" src="Assets/Inimigo.png" alt="Inimigo">
         </div>
 
-        <div id="vidaCavaleiro">
+        <div id="vidaCavaleiro"  class="VidaCavaleiro">
             Sua vida: <span id="vidaDisplay"></span>
         </div>
 
-        <div id="vidaInimigo">
+        <div id="vidaInimigo" class="VidaInimigo">
             Vida do inimigo: <span id="vidaInimigoDisplay"></span>
         </div>
     
+        <div id="telaMorte" class="TelaMorte" style="display: none;">
+            <h1>Você morreu!</h1>
+            <button onclick="reiniciarJogo()">Reiniciar</button>
+        </div>
+
+        <div id="telaVenceu" class="TelaVenceu" style="display: none;">
+            <h1>Parabéns! Você venceu!</h1>
+            <button onclick="reiniciarJogo()">Jogar Novamente</button>
+        </div>
+        
+        
     </div>
+    <audio id="sfxAtaqueGuarda" src="Assets/ataqueGuarda.mp3"></audio>
+    <audio id="sfxAtaque" src="Assets/sfxAtaque.mp3"></audio>
 
 </body>

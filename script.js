@@ -1,8 +1,13 @@
     const personagem = document.getElementById('personagem');
     const vidaDisplay = document.getElementById('vidaDisplay');
     const inimigo = document.getElementById('inimigo');
+    const sfxAtaqueGuarda = document.getElementById('sfxAtaqueGuarda');
+    const sfxAtaque = document.getElementById('sfxAtaque');
+    const soundtrack = document.getElementById('soundTrack')
+
     let posicaoX = 0;  //posição inicial
     let posicaoXInimigo = 0;  //posição inicial
+    
 
     class Cavaleiro {
         constructor(vida, ataque, atacando) {
@@ -10,16 +15,26 @@
             this.ataque = ataque;
             atacando = false;
         }
-    
+        
         atualizarVidaDisplay() {
             vidaDisplay.textContent = this.vida;
         }
-    
+        
         sofrerDano() {
             this.vida -= 2; 
             this.atualizarVidaDisplay(); 
+            
+            if (this.vida <= 0) {
+                this.mostrarTelaMorte();
+            }
+        }
+
+        mostrarTelaMorte() {
+            const telaMorte = document.getElementById('telaMorte');
+            telaMorte.style.display = 'flex';
         }
     }
+    
 
     class Inimigo {
         constructor(vida, ataque, atacando, defendendo){
@@ -35,19 +50,40 @@
 
         sofrerDanoInimigo(dano) {
             this.vida -= dano; 
-            this.atualizarVidaInimigoDisplay(); 
-        }
-    }
+            this.atualizarVidaInimigoDisplay();   
 
+            if(this.vida <= 0){
+                this.mostrarTelaVenceu();
+            }
+        }
+
+        mostrarTelaVenceu(){
+            const telaVenceu = document.getElementById('telaVenceu');
+            telaVenceu.style.display = 'flex';
+        }
+}
+
+//funcao pra reiniciar o jogo
+function reiniciarJogo() {
+    location.reload(); 
+}
+
+//instanciando
     const cavaleiro = new Cavaleiro(10, 1, false);
     cavaleiro.atualizarVidaDisplay();
     
-    const inimigo2 = new Inimigo(20, 2, false, true);
+    const inimigo2 = new Inimigo(15, 2, false, true);
     inimigo2.atualizarVidaInimigoDisplay();
     
     const distanciaMovimento = 10; //distancia do movimento do cavaleiro
-    const distanciaMovimentoInimigo = 15; //distancia do monivmento do inimigo
+    const distanciaMovimentoInimigo = 20; //distancia do monivmento do inimigo
 
+    //tocar musica de fundo
+    function tocarSundtrack(){
+        soundtrack.loop = true;
+        soundtrack.volume = 0.5;
+        soundtrack.play();
+    }
     //mover pra direita
     function moverDireita() {
         posicaoX += distanciaMovimento;
@@ -64,12 +100,6 @@
         personagem.querySelector('img').classList.remove('Direita');
         personagem.querySelector('img').classList.add('Esquerda');
         personagem.querySelector('img').classList.add('CavaleiroAndando');
-    }
-    
-    function moverEsquerdaInimigo() {
-        posicaoXInimigo -= distanciaMovimentoInimigo;
-        inimigo.style.transform = `translateX(${posicaoXInimigo}px)`;  
-        inimigo.querySelector('img').classList.add('InimigoAndando');
     }
 
     document.addEventListener('keydown', function(evento) {
@@ -90,6 +120,7 @@
 
     //atacar
     document.addEventListener('keydown', function(evento){
+        //primeira parte do ataque
             if(!cavaleiro.atacando && (evento.key === 'j' || evento.key === 'J')){
                 cavaleiro.atacando = true;
                 personagem.querySelector('img').classList.add('DireitaAtaque');
@@ -98,6 +129,7 @@
                 personagem.querySelector('img').classList.remove('Direita');
                 personagem.querySelector('img').classList.remove('Esquerda');
 
+            //segunda parte do ataque (efetivaçao)
                 setTimeout(function() {
                     personagem.querySelector('img').classList.add('CavaleiroParado');
                     personagem.querySelector('img').classList.remove('CavaleiroAtacando');
@@ -105,9 +137,24 @@
                     
                         if (!inimigo2.defendendo && (calcularDistancia(inimigo, personagem) <= 60 && calcularDistancia(inimigo, personagem) >= 55)) {
                             inimigo2.sofrerDanoInimigo(cavaleiro.ataque);
+                            inimigo.querySelector('img').style.filter = "brightness(0)";
+                            setTimeout(() => {
+                                inimigo.querySelector('img').style.filter = "";
+                            }, 150);
+                            sfxAtaque.play();
+
                         }     
                         else if (!inimigo2.defendendo && (calcularDistancia(inimigo, personagem) < 55)) {
                             inimigo2.sofrerDanoInimigo(cavaleiro.ataque + 1);
+                            inimigo.querySelector('img').style.filter = "brightness(0)";
+                            setTimeout(() => {
+                                inimigo.querySelector('img').style.filter = "";
+                            }, 150);
+                            sfxAtaque.play();
+
+                        }
+                        else if(inimigo2.defendendo && (calcularDistancia(inimigo, personagem) <= 60 && calcularDistancia(inimigo, personagem) < 55)){
+                            sfxAtaqueGuarda.play();
                         } 
 
                         cavaleiro.atacando = false;
@@ -116,7 +163,7 @@
         });
         
         
-       
+    //funcao pra calcular distancia entre as divs (vc e o inimigo neste caso) 
     function calcularDistancia(div1, div2) {
         const rect1 = div1.getBoundingClientRect();
         const rect2 = div2.getBoundingClientRect();
@@ -125,6 +172,7 @@
         return Math.abs(rect1.left - rect2.left);
     }
 
+    //caso o cavaleiro se aproxime demais do inimigo
     setInterval(() => {
         if (calcularDistancia(inimigo, personagem) < 40) {
             cavaleiro.sofrerDano();
@@ -140,25 +188,28 @@
         }
     }, 100);
     
+    //movimentacao e ataque do inimigo
     setInterval(() => {
 
-        if( (calcularDistancia(inimigo, personagem) > 70)){
-            
+        if( (calcularDistancia(inimigo, personagem) > 70)){//movimentacao
             moverEsquerdaInimigo();
         }
-        else if(!inimigo2.atacando){
+        else if(!inimigo2.atacando){//ataque
             inimigo.querySelector('img').classList.remove('InimigoAndando');
 
+            //primeira parte do ataque
             setTimeout(function() {
             inimigo2.atacando = true;
             inimigo.querySelector('img').classList.add('InimigoAtacando');
             inimigo2.defendendo = false;
             
+            //segunda parte do ataque (efetivacao)
             setTimeout(function() {
                 inimigo.querySelector('img').classList.remove('InimigoAtacando');
                 inimigo.querySelector('img').classList.add('InimigoAtacou');
                 if(calcularDistancia(inimigo, personagem) <= 50){
                     cavaleiro.sofrerDano(inimigo2.ataque);
+                    sfxAtaque.play();
                 }
                 inimigo2.defendendo = true;
                 
