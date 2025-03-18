@@ -1,7 +1,6 @@
 # **Honor Duel**
-<br>
 
-## Sobre
+## Sobre o projeto
 Honor Duel é um jogo desenvolvido com HTML, CSS e JavaScript, onde seu objetivo é derrotar seu inimigo, observando se o mesmo está com a guarda alta ou baixa.
 
 
@@ -23,7 +22,7 @@ git clone https://github.com/ThiagoRozendo/honor-duel
 
 <br>
 
-### 2. Instruções In-Game
+### 2. Instruções para o in-game
 - Use **A** e **D** para movimentar-se
 - Use **J** para atacar<br><br>
 
